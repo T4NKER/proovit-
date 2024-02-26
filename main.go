@@ -1,23 +1,20 @@
 package main
 
 import (
-
-	services "proovit-/services"
-
-	"gorm.io/driver/sqlite"
-	"gorm.io/gorm"
+	handlers "proovit-/src/handlers"
 
 	"github.com/gin-gonic/gin"
 )
 
-
 func main() {
 
 	router := gin.Default()
+	router.LoadHTMLGlob("./src/templates/*")
 
-	router.GET("/transactions", services.listAllTransactions())
-	router.GET("/currentBalance", services.currentBalance())
-	router.POST("/newTransfer", services.newTransfer())
+	router.GET("/", handlers.RootHandler)
+	router.GET("/transactions", handlers.ListAllTransactionsHandler)
+	router.GET("/currentBalance", handlers.CurrentBalanceHandler)
+	router.POST("/newTransfer", handlers.NewTransferHandler)
 
 	router.Run("localhost:8080")
 
