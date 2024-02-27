@@ -12,3 +12,11 @@ func RandomHex(n int) (string, error) {
 	}
 	return hex.EncodeToString(bytes), nil
 }
+
+func IsAmountInEur0OrSmaller(amountInEUR float64) bool {
+	return amountInEUR <= 0 
+}
+
+func IsAmountInBTCLessThanAmount(amountInBTC float64, amount float64) bool {
+	return amountInBTC < amount 
+}

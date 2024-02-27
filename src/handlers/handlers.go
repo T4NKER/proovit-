@@ -10,7 +10,6 @@ import (
 )
 
 func RootHandler(c *gin.Context) {
-	// Render the HTML page
 	c.HTML(200, "index.html", gin.H{})
 }
 

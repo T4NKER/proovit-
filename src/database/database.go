@@ -21,10 +21,5 @@ func databaseInit(path string) *gorm.DB {
 		log.Fatal("Failed to connect database")
 	}
 
-	/* err = db.AutoMigrate(&models.Transaction{})
-	if err != nil {
-		log.Fatal("Failed to auto migrate model")
-	} */
-
 	return DB
 }
