@@ -18,7 +18,7 @@ type TickerData struct {
 	UpdatedAt string `json:"updated_at"`
 }
 
-func BTCEURConverter(amount float64, which string) (float64, error) {
+func BTCEURConverter() (float64, error) {
     response, err := http.Get("http://api-cryptopia.adca.sh/v1/prices/ticker?symbol=BTC%2FEUR")
     if err != nil {
         return 0, err
@@ -41,18 +41,10 @@ func BTCEURConverter(amount float64, which string) (float64, error) {
         return 0, err
     }
 
-    switch which {
-    case "BTCTOEUR":
-        eurValue := amount * value
-        return eurValue, nil
-    case "EURTOBTC":
-        if value == 0 {
-            return 0, errors.New("EUR to BTC conversion rate is zero")
-        }
-        BTCValue := amount / value
-        return BTCValue, nil
-    default:
-        return 0, errors.New("invalid conversion type")
+    if value == 0 {
+        return 0, errors.New("EUR to BTC conversion rate is zero")
     }
+
+    return 1 / value, nil
 }
 
