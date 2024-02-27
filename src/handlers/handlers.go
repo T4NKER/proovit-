@@ -2,12 +2,10 @@ package handlers
 
 import (
 	database "proovit-/src/database"
-	"proovit-/src/helpers"
+	helpers "proovit-/src/helpers"
 	services "proovit-/src/services"
-	"proovit-/src/services/unspent"
 
 	"github.com/gin-gonic/gin"
-
 )
 
 func RootHandler(c *gin.Context) {
@@ -17,7 +15,7 @@ func RootHandler(c *gin.Context) {
 func ListAllTransactionsHandler(c *gin.Context) {
 	transactions, err := services.ListAllTransactions(database.DB)
 	if err != nil {
-		c.JSON(500, gin.H{"error": "Failed to retrieve transactions"})
+		c.JSON(400, gin.H{"error": "Failed to retrieve transactions"})
 		return
 	}
 
@@ -27,12 +25,12 @@ func ListAllTransactionsHandler(c *gin.Context) {
 func CurrentBalanceHandler(c *gin.Context) {
 	conversionRate, err := helpers.BTCEURConverter()
 	if err != nil {
-		c.JSON(500, gin.H{"error": "Failed to retrieve conversionrate"})
+		c.JSON(400, gin.H{"error": "Failed to retrieve conversionrate"})
 		return
 	}
 	balance, err := services.AccountBalance(database.DB, conversionRate)
 	if err != nil {
-		c.JSON(500, gin.H{"error": "Failed to retrieve balance"})
+		c.JSON(400, gin.H{"error": "Failed to retrieve balance"})
 		return
 	}
 	c.JSON(200, balance)
@@ -50,16 +48,16 @@ func NewTransferHandler(c *gin.Context) {
 
 	conversionRate, err := helpers.BTCEURConverter()
 	if err != nil {
-		c.JSON(500, gin.H{"error": err.Error()})
+		c.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
 	if err := helpers.IsValidTransferAmount(request.AmountInEUR, conversionRate); err != nil {
-		c.JSON(500, gin.H{"error": err.Error()})
+		c.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	unSpentTransactions, err := unspent.GetUnspentTransactions(database.DB)
+	unSpentTransactions, err := services.GetUnspentTransactions(database.DB)
 	if err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
@@ -93,4 +91,3 @@ func NewTransferHandler(c *gin.Context) {
 
 	c.JSON(200, gin.H{"message": "Transfer completed successfully"})
 }
-

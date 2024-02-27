@@ -5,8 +5,6 @@
 ` chmod +x scripts/run.sh && bash scripts/run.sh ` <br /> <br />
 or use  <br />
 <br />
-` go run . ` <br /> <br />
-to use unit tests on services while in root directory <br /> <br />
-` cd src/services && go test -v ` <br />
+` chmod +x scripts/databaseInit.sh && bash scripts/databaseInit.sh && go run . ` <br /> <br />
 
 ### The page is running on localhost:8080.

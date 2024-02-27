@@ -3,14 +3,15 @@ package services
 import (
 
 	models "proovit-/src/models"
-	unspent "proovit-/src/services/unspent"
+	queries "proovit-/src/services/queries"
 
 	"gorm.io/gorm"
 )
 
 func ListAllTransactions(db *gorm.DB) ([]models.Transaction, error) {
 	var transactions []models.Transaction
-	if err := db.Find(&transactions).Error; err != nil {
+	transactions, err := queries.GetAllTransactions(db)
+	if err != nil {
 		return nil, err
 	}
 
@@ -18,13 +19,17 @@ func ListAllTransactions(db *gorm.DB) ([]models.Transaction, error) {
 }
 
 func MarkUnspentTransactions(transactions []models.Transaction, db *gorm.DB) error {
-	return unspent.MarkUnspentTransactionsAsSpent(transactions, db)
+	return queries.MarkUnspentTransactionsAsSpent(transactions, db)
+}
+
+func GetUnspentTransactions(db *gorm.DB) ([]models.Transaction, error) {
+	return queries.GetUnspentTransactions(db)
 }
 
 func CreateUnspentTransaction(leftoverAmount, checkerAmount, conversionRate float64, db *gorm.DB) error {
 	if leftoverAmount > checkerAmount {
 		leftoverAmount = leftoverAmount * conversionRate
-		return unspent.CreateUnspentTransaction(leftoverAmount, db)
+		return queries.CreateUnspentTransaction(leftoverAmount, db)
 	}
 	return nil
 }

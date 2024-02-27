@@ -2,7 +2,7 @@ package services
 
 import (
 	models "proovit-/src/models"
-	unspent "proovit-/src/services/unspent"
+	queries "proovit-/src/services/queries"
 
 	"gorm.io/gorm"
 )
@@ -10,7 +10,7 @@ import (
 func AccountBalance(db *gorm.DB, conversionRate float64) (models.Balance, error) {
 	var balance models.Balance
 
-	transactions, err := unspent.GetUnspentTransactions(db)
+	transactions, err := queries.GetUnspentTransactions(db)
 	if err != nil {
 		return balance, err
 	}

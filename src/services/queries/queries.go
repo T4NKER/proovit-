@@ -1,4 +1,4 @@
-package unspent
+package queries
 
 import (
 	"errors"
@@ -9,6 +9,14 @@ import (
 
 	"gorm.io/gorm"
 )
+
+func GetAllTransactions(db *gorm.DB) ([]models.Transaction, error) {
+	var transactions []models.Transaction
+	if err := db.Find(&transactions).Error; err != nil {
+		return nil, err
+	}
+	return transactions, nil
+}
 
 func GetUnspentTransactions(db *gorm.DB) ([]models.Transaction, error) {
 	// It sorts unspent transactions by ascending value so the
