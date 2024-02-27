@@ -4,30 +4,31 @@ import (
 	"errors"
 	"log"
 
-	database "proovit-/src/database"
 	helpers "proovit-/src/helpers"
 	models "proovit-/src/models"
+
+	"gorm.io/gorm"
 )
 
-func GetUnspentTransactions() ([]models.Transaction, error) {
+func GetUnspentTransactions(db *gorm.DB) ([]models.Transaction, error) {
 	var transactions []models.Transaction
-	if err := database.DB.Model(&models.Transaction{}).Where("spent = ?", false).Order("amount ASC").Find(&transactions).Error; err != nil {
+	if err := db.Model(&models.Transaction{}).Where("spent = ?", false).Order("amount ASC").Find(&transactions).Error; err != nil {
 		return nil, err
 	}
 	return transactions, nil
 }
 
-func MarkUnspentTransactionsAsSpent(transactions []models.Transaction) error {
+func MarkUnspentTransactionsAsSpent(transactions []models.Transaction, db *gorm.DB) error {
 	for _, transaction := range transactions {
 		transaction.Spent = true
-		if err := database.DB.Model(&models.Transaction{}).Where("transactionID = ?", transaction.TransactionID).Updates(&transaction).Error; err != nil {
+		if err := db.Model(&models.Transaction{}).Where("transactionID = ?", transaction.TransactionID).Updates(&transaction).Error; err != nil {
 			return err
 		}
 	}
 	return nil
 }
 
-func CreateUnspentTransaction(leftoverAmount float64) error {
+func CreateUnspentTransaction(leftoverAmount float64, db *gorm.DB) error {
 	if leftoverAmount < 0 {
 		return errors.New("leftover amount must be non-negative")
 	}
@@ -44,7 +45,7 @@ func CreateUnspentTransaction(leftoverAmount float64) error {
 		Spent:         false,
 	}
 
-	if err := database.DB.Create(&transaction).Error; err != nil {
+	if err := db.Create(&transaction).Error; err != nil {
 		log.Println("Error creating unspent transaction:", err)
 		return err
 	}
