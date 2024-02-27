@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 	"log"
 	"testing"
+	"fmt"
 
 	converter "proovit-/src/converter"
 	models "proovit-/src/models"
@@ -24,11 +25,11 @@ func TestNewTransfer(t *testing.T) {
 	setupTestDatabase()
 
 	conversionRate := localConverter()
-
+	fmt.Println()
 	LocalAccountBalance(conversionRate)
-
+	fmt.Println()
 	LocalListAllTransactions()
-
+	fmt.Println()
 	
 
 	// NOTE:
@@ -85,11 +86,11 @@ func TestNewTransfer(t *testing.T) {
 			}
 		})
 	}
-
+	fmt.Println()
 	LocalListAllTransactions()
-
+	fmt.Println()
 	LocalAccountBalance(conversionRate)
-
+	fmt.Println()
 	cleanupTestDatabase()
 }
 
@@ -99,7 +100,6 @@ func LocalAccountBalance(conversionRate float64) {
 		log.Fatal("Error getting account balance:", err)
 	}
 	log.Println("Current balance in EUR: ", balance.AmountInEUR ,"and in BTC: ", balance.AmountInBTC)
-	log.Println()
 }
 
 func LocalListAllTransactions() {
@@ -107,7 +107,6 @@ func LocalListAllTransactions() {
 	if err != nil {
 		log.Fatal("Error getting transactions:", err)
 	}
-
 	for _, transaction := range transactions {
 		log.Println("Transaction: ", transaction)
 	}

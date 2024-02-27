@@ -11,6 +11,8 @@ import (
 )
 
 func GetUnspentTransactions(db *gorm.DB) ([]models.Transaction, error) {
+	// It sorts unspent transactions by ascending value so the
+	// first transaction is the smallest one.
 	var transactions []models.Transaction
 	if err := db.Model(&models.Transaction{}).Where("spent = ?", false).Order("amount ASC").Find(&transactions).Error; err != nil {
 		return nil, err
