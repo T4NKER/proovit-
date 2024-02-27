@@ -3,6 +3,9 @@ package helpers
 import (
 	"crypto/rand"
 	"encoding/hex"
+	"errors"
+
+	"proovit-/src/models"
 )
 
 func RandomHex(n int) (string, error) {
@@ -13,10 +16,38 @@ func RandomHex(n int) (string, error) {
 	return hex.EncodeToString(bytes), nil
 }
 
-func IsAmountInEur0OrSmaller(amountInEUR float64) bool {
-	return amountInEUR <= 0 
+func IsValidTransferAmount(amountInEUR, conversionRate float64) error {
+	if amountInEUR <= 0  {
+		return errors.New("cannot transfer less than 0.00001 EUR")
+	}
+
+	amountInBTC := amountInEUR * conversionRate
+
+	if amountInBTC < 0.00001 {
+		return errors.New("cannot transfer less than 0.00001 BTC")
+	}
+
+	return nil
 }
 
-func IsAmountInBTCLessThanAmount(amountInBTC float64, amount float64) bool {
-	return amountInBTC < amount 
+func CheckFunds(totalAmount, amountInEUR, checkerAmount float64) error {
+	if totalAmount-amountInEUR < -checkerAmount {
+		return errors.New("not enough funds")
+	}
+	return nil
+}
+
+func CalculateTotalAmount(unspentTransactions []models.Transaction, conversionRate, amountInEUR float64) ([]models.Transaction, float64, error) {
+	totalAmount := 0.0
+	selectedTransactions := make([]models.Transaction, 0)
+
+	for _, transaction := range unspentTransactions {
+		totalAmount += transaction.Amount / conversionRate
+		selectedTransactions = append(selectedTransactions, transaction)
+		if totalAmount >= amountInEUR {
+			break
+		}
+	}
+
+	return selectedTransactions, totalAmount, nil
 }

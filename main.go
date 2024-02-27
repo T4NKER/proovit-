@@ -1,7 +1,7 @@
 package main
 
 import (
-	api "proovit-/src/api"
+	api "proovit-/src"
 )
 
 func main() {

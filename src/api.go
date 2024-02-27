@@ -13,7 +13,7 @@ type API struct {
 func (a *API) Initalize() {
 	router := gin.Default()
 	a.Router = router
-	router.LoadHTMLGlob("./src/templates/*")
+	router.LoadHTMLGlob("./src/index.html")
 
 	// Define API routes
 	router.GET("/", handlers.RootHandler)

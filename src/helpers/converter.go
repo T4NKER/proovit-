@@ -1,4 +1,4 @@
-package converter
+package helpers
 
 import (
 	"encoding/json"
