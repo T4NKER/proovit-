@@ -15,7 +15,7 @@ func (a *API) Initalize() {
 	a.Router = router
 	router.LoadHTMLGlob("./web/index.html")
 
-	// Define API routes
+
 	router.GET("/", handlers.RootHandler)
 	router.GET("/transactions", handlers.ListAllTransactionsHandler)
 	router.GET("/currentBalance", handlers.CurrentBalanceHandler)
