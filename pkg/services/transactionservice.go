@@ -2,8 +2,8 @@ package services
 
 import (
 
-	models "proovit-/src/models"
-	queries "proovit-/src/services/queries"
+	models "proovit-/pkg/models"
+	queries "proovit-/pkg/services/queries"
 
 	"gorm.io/gorm"
 )

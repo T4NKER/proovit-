@@ -4,9 +4,9 @@
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Define absolute paths based on the script directory
-database_file="$script_dir/../src/database/database.db"
-schema_file="$script_dir/../src/database/schema.sql"
-seed_data_file="$script_dir/../src/database/seedData.sql"
+database_file="$script_dir/../pkg/database/database.db"
+schema_file="$script_dir/../pkg/database/schema.sql"
+seed_data_file="$script_dir/../pkg/database/seedData.sql"
 
 # Check if the database file exists
 if [ -e "$database_file" ]; then

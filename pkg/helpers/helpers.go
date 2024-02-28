@@ -5,7 +5,7 @@ import (
 	"encoding/hex"
 	"errors"
 
-	"proovit-/src/models"
+	"proovit-/pkg/models"
 )
 
 func RandomHex(n int) (string, error) {

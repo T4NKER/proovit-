@@ -1,9 +1,9 @@
 package handlers
 
 import (
-	database "proovit-/src/database"
-	helpers "proovit-/src/helpers"
-	services "proovit-/src/services"
+	database "proovit-/pkg/database"
+	helpers "proovit-/pkg/helpers"
+	services "proovit-/pkg/services"
 
 	"github.com/gin-gonic/gin"
 )

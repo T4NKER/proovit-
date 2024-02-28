@@ -4,8 +4,8 @@ import (
 	"errors"
 	"log"
 
-	helpers "proovit-/src/helpers"
-	models "proovit-/src/models"
+	helpers "proovit-/pkg/helpers"
+	models "proovit-/pkg/models"
 
 	"gorm.io/gorm"
 )

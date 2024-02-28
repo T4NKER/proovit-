@@ -8,7 +8,7 @@ bash ./scripts/databaseInit.sh
 go mod download
 
 # Build the program
-go build -o proovit-
+go build -o proovit ./cmd
 
 # Run the built program
-./proovit-
+./proovit

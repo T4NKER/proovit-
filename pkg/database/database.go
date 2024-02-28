@@ -9,7 +9,7 @@ import (
 )
 
 var DB *gorm.DB
-const DbPath = "./src/database/database.db"
+const DbPath = "./pkg/database/database.db"
 
 func init() {
 	DB = databaseInit(DbPath)

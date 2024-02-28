@@ -1,7 +1,7 @@
 package api
 
 import (
-	handlers "proovit-/src/handlers"
+	handlers "proovit-/pkg/handlers"
 
 	"github.com/gin-gonic/gin"
 )
@@ -13,7 +13,7 @@ type API struct {
 func (a *API) Initalize() {
 	router := gin.Default()
 	a.Router = router
-	router.LoadHTMLGlob("./src/index.html")
+	router.LoadHTMLGlob("./web/index.html")
 
 	// Define API routes
 	router.GET("/", handlers.RootHandler)
